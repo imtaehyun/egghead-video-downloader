@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --exec node app.js"
   },
   "dependencies": {
     "mt-files-downloader": "^0.2.5",
@@ -12,5 +12,8 @@
     "underscore": "^1.8.3",
     "vo": "^3.0.4",
     "x-ray": "^2.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.1"
   }
 }

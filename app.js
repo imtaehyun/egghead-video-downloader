@@ -2,6 +2,7 @@
 
 const os = require('os');
 const path = require('path');
+const fs = require('fs');
 const vo = require('vo');
 
 const Xray = require('x-ray');
@@ -21,26 +22,34 @@ var registerDlEvents = function(num, dl) {
 	printStats(dl, num);
 };
 
-let url = 'https://egghead.io/series/step-by-step-async-javascript-with-rxjs?utm_source=drip&utm_medium=email&utm_campaign=async-programming-with-rxjs';
+let url = 'https://egghead.io/playlists/learn-about-recursion-80ae94c4';
 
-x(url, '.title', [{
+x(url, {
+	title: 'section.hero h1.title',
+	list: x('#lesson-list h4.title', [{
     title: 'a',
     link: 'a@href'
-}])(function(err, arr) {
+	}])
+})(function(err, lesson) {
     if (err) {
         console.error(err);
     } else {
-		_.each(arr, function(value, index, list) {
+				console.log(lesson);
+				let dir = './' + lesson.title.replace(/\./g, '') + '/';
+				if (!fs.existsSync(dir)){
+				    fs.mkdirSync(dir);
+				}
+				_.each(lesson.list, function(value, index, list) {
 	        if (index < 9) {
-	            value.filename = '0' + (index+1) + '. ' + value.title + '.mp4';
+	            value.filename = dir + '0' + (index+1) + '. ' + value.title + '.mp4';
 	            // console.log(filename);
 	        } else {
-	            value.filename = (index+1) + '. ' + value.title + '.mp4';
+	            value.filename = dir + (index+1) + '. ' + value.title + '.mp4';
 	            // console.log(filename);
 	        }
 
-			videoDownload(value, index);
-	    });
+					videoDownload(value, index);
+	    	});
     }
 });
 
